@@ -1,0 +1,44 @@
+* C:\Users\samuel\Desktop\mywork\ltspiceauto-code\circuitfile\synchronous_buck_va.asc
+L1 N002 out {ind}
+R1 N002 N001 {RL}
+C1 out N003 {cap1}
+Rload out 0 1.45
+V1 vin 0 48
+R5 N005 inv 16k
+C3 comp N005 10n
+R6 inv out 16k
+XU2 isense n_inv inv comp 0 pwm clk isensa MyCMC f={fs} Vcc=15 ma=4.167*{RL}/{ind}+6/{ind} Ao=1e5 FBW=1e6
+XU3 pwm 0 0 gateLS sourceHS gateHS 0 MyDriverHB Vcc=15 Tau=75n
+XU1 sourceHS N001 isense isense k=1
+XU4 n_inv Constant K=12
+XU5 sourceHS gateLS 0 irfbsl4310
+XU6 vin gateHS sourceHS irfbsl4310
+L§ESL N004 0 {LC1}
+R§ESR N003 N004 {RC1}
+.options reltol=12m
+.tran 0 20m 10m uic
+* .meas P_s1 avg V(vin,sourceHS)*Ix(U6:D)
+* .meas P_s2 avg V(sourcehs)*Ix(U5:D)
+.param ind=0.002 RL=0.12077301606043182
+.meas P_L_cu avg I(R1)*I(R1)*RL
+.meas Pout avg V(out)*I(Rload)
+.meas Pin avg -V(vin)*I(V1)
+.meas eff(%) param Pout/Pin*100
+.meas vout avg V(out)
+.meas IL avg I(L1)
+.meas tran vout_max max V(out)
+.meas tran vout_min min V(out)
+.meas vout_ripple(%) param (vout_max-vout_min)/vout*100
+.meas tran IL_max max I(L1)
+.meas tran IL_min min I(L1)
+.meas IL_ripple(%) param (IL_max-IL_min)/IL*100
+.param fs=200000.0
+.param cap1=0.001 RC1=0.00011140846016432676 LC1=4.389e-08
+.meas P_c avg I(Esr)*I(Esr)*RC1
+* ma=4.167*{RL}/{ind}+6/{ind}
+.lib Control.lib
+.lib irfbsl4310.spi
+.lib MyCMC.sub
+.lib MyDriverHB.sub
+.backanno
+.end

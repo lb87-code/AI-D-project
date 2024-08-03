@@ -1,0 +1,6 @@
+cap loss nn ok!
+sw high side loss nn ok!
+sw low  side loss nn ok!
+inductor copper loss ok!
+voltage ripple ok!
+current ripple ok!

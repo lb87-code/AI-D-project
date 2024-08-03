@@ -1,0 +1,57 @@
+* C:\Users\samuel\Desktop\mywork\ltspiceauto-code\circuitfile\synchronous_buck_va_v2.asc
+L1 N002 out {ind}
+R1 N002 N001 {RL}
+C1 out N005 {cap1}
+Rload out 0 1.45
+V1 vin 0 48
+XU1 sourceHS N001 isense isense k=1
+XU5 sourceHS N004 0 irfbsl4310
+XU6 vin N003 sourceHS irfbsl4310
+L§ESL N006 0 {LC1}
+R§ESR N005 N006 {RC1}
+R2 N012 inv 16k
+C2 N011 N012 10n
+R3 inv out 16k
+XU8 n_inv Constant K=12
+E1 N003 sourceHS pwm_hs 0 15
+E2 N004 0 inv_pwm 0 15
+A1 pwm 0 0 0 0 0 N008 0 BUF
+A2 pwm 0 0 0 0 N013 0 0 BUF
+A3 N009 0 0 0 0 0 pwm_hs 0 BUF
+A4 N014 0 0 0 0 0 inv_pwm 0 BUF
+R4 N009 N008 1k
+C3 N009 0 {td/693}
+R5 N014 N013 1k
+C4 N014 0 {td/693}
+D1 N009 N008 D
+D2 N014 N013 D
+XU2 N007 inv isense N010 n_inv clk N011 isensa pwm MyCMC2 f={fs} ma=4.167*{RL}/{ind}+6/{ind} Ao=1e5 FBW=1e6
+XU3 N007 Constant K=20
+XU4 N010 Constant K=0.9
+.model D D
+.lib C:\Users\samuel\AppData\Local\LTspice\lib\cmp\standard.dio
+* .meas P_s1 avg V(vin,sourceHS)*Ix(U6:D)
+* .meas P_s2 avg V(sourcehs)*Ix(U5:D)
+.param ind=30u RL=0.12077301606043182
+.meas P_L_cu avg I(R1)*I(R1)*RL
+.meas Pout avg V(out)*I(Rload)
+.meas Pin avg -V(vin)*I(V1)
+.meas eff(%) param Pout/Pin*100
+.meas vout avg V(out)
+.meas IL avg I(L1)
+.meas tran vout_max max V(out)
+.meas tran vout_min min V(out)
+.meas vout_ripple(%) param (vout_max-vout_min)/vout*100
+.meas tran IL_max max I(L1)
+.meas tran IL_min min I(L1)
+.meas IL_ripple(%) param (IL_max-IL_min)/IL*100
+.param td=300n fs=20k
+.param cap1=20u RC1=0.00011140846016432676 LC1=4.389e-08
+.meas P_c avg I(Esr)*I(Esr)*RC1
+.tran 0 25m 15m uic
+* ma=4.167*{RL}/{ind}+6/{ind}
+.lib Control.lib
+.lib irfbsl4310.spi
+.lib MyCMC2.sub
+.backanno
+.end

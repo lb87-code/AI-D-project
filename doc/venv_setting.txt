@@ -1,0 +1,4 @@
+cd desktop\mywork
+ltspiceauto-venv\scripts\activate
+cd ltspiceauto-code
+python -X utf8 ltspiceautorun_v_net.py

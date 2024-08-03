@@ -1,0 +1,34 @@
+開發工具
+IDE: VSCODE
+環境:w11/python 3.11.2
+
+
+step:
+1.安裝vscode並重新啟動(記得安裝python extension)
+2.建立資料夾a.虛擬環境資料夾b.程式碼資料夾
+3.把電路檔案以及程式碼遺移至b.
+4.建立虛擬環境在a. 
+python -m venv ltspiceauto-venv
+5.檢查虛擬環境是否建立成功
+cd desktop\mywork
+ltspiceauto-venv\scripts\activate
+cd ltspiceauto-code
+6.檢查Python版本以及安裝pip工具
+python --version
+pip list
+7.加入終端機
+ctrl+shift+p
+搜尋View: Toggle Terminal
+8.設定使得終端機可以執行python venv指令
+這時請先以系統管理員的身分打開 PowerShell，並輸入 get-executionpolicy 就會發現現在是處於 Restricted 的狀態。
+輸入 set-executionpolicy RemoteSigned，並且選擇 A 就能夠覆寫初始設定
+9.測次vscode內建終端機能否啟動虛擬資料夾
+ltspiceauto-venv\scripts\activate
+10.安裝pyltspice工具/PyMySQL工具
+pip install PyLTSpice
+pip install --upgrade PyLTSpice
+pip install PyMySQL
+11.安裝SQL server 以連線至資料庫
+本機資料庫需新增使用者/密碼 (server-> Users and privileges)
+
+	

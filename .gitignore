@@ -1,0 +1,4 @@
+# database key
+.env
+# simulation temp data
+temp/
